@@ -53,6 +53,7 @@ jobs:
           git pull origin main || exit
 
           # Install dependencies and build the project
+           npm install -g npm 
           npm install || exit
           npm run build || exit
           pm2 delete react
