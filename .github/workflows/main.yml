@@ -10,25 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Specify the Node.js version your project uses
+          node-version: '16'
 
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Build the React application
       - name: Build React application
-        run: npm run build  # Assumes you have a build script defined in package.json
+        run: npm run build
 
-      # Step 5: Deploy to server
       - name: Deploy to server
         uses: appleboy/ssh-action@v0.1.3
         with:
@@ -38,18 +33,7 @@ jobs:
           port: 22
           script: |
             echo "Deploying React application to server"
-            
-            # Navigate to the directory where you want to deploy
             cd /home/ubuntu/frontend-only
-
-            # Remove old files
             rm -rf *
-
-            # Copy new build files
             scp -r /github/workspace/build/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/ubuntu/frontend-only/
-
-            # Restart server or web server if necessary
-            # Example: restart with pm2 if your application is managed by pm2
-            # pm2 restart your-react-app
-
             echo "Deployment completed!"
