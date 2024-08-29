@@ -52,30 +52,5 @@ jobs:
             # Pull the latest code
             git pull origin main || exit
 
-            # Install dependencies and build the project
-            # Update package index
-            sudo apt update || exit
-
-            # Install prerequisites
-            sudo apt install -y curl software-properties-common || exit
-
-            # Add NodeSource repository
-            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - || exit
-
-            # Install Node.js (includes npm)
-            sudo apt install -y nodejs || exit
-
-            # Install PM2 globally
-            sudo npm install -g pm2 || exit
-
-            # Install project dependencies
-            npm install || exit
-
-            # Build the project
-            npm run build || exit
-
-            # Manage PM2 processes
-            pm2 delete react || exit
-            pm2 start npm --name "react" -- start || exit
-            pm2 restart react || exit
+     
           EOF
