@@ -3,7 +3,7 @@ name: Deploy React App to Ubuntu EC2
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   build-and-deploy:
@@ -36,47 +36,46 @@ jobs:
           AWS_EC2_HOST: ${{ secrets.AWS_EC2_HOST }}
         run: |
           ssh -i ~/.ssh/deploy_key $AWS_EC2_USER@$AWS_EC2_HOST << 'EOF'
-          # Ensure the deployment directory exists
-          mkdir -p /home/ubuntu/frontend-code || exit
-          
-          # Change to the deployment directory
-          cd /home/ubuntu/frontend-only/  || exit
+            # Ensure the deployment directory exists
+            mkdir -p /home/ubuntu/frontend-code || exit
 
-          # Fix ownership and permissions
-          sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /home/ubuntu/frontend-only || exit
-          sudo chmod -R u+rwX /home/ubuntu/frontend-only || exit
+            # Change to the deployment directory
+            cd /home/ubuntu/frontend-code || exit
 
-          # Configure Git to handle permissions issues
-          git config --global --add safe.directory /home/ubuntu/frontend-only || exit
+            # Fix ownership and permissions
+            sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /home/ubuntu/frontend-code || exit
+            sudo chmod -R u+rwX /home/ubuntu/frontend-code || exit
 
-          # Pull the latest code
-          git pull origin main || exit
+            # Configure Git to handle permissions issues
+            git config --global --add safe.directory /home/ubuntu/frontend-code || exit
 
-          # Install dependencies and build the project
-          
-          # Update package index
-sudo apt update
+            # Pull the latest code
+            git pull origin main || exit
 
-# Install prerequisites
-sudo apt install curl software-properties-common
+            # Install dependencies and build the project
+            # Update package index
+            sudo apt update || exit
 
-# Add NodeSource repository
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            # Install prerequisites
+            sudo apt install -y curl software-properties-common || exit
 
-# Install Node.js (includes npm)
-sudo apt install -y nodejs
+            # Add NodeSource repository
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - || exit
 
-sudo npm install -g pm2
+            # Install Node.js (includes npm)
+            sudo apt install -y nodejs || exit
 
-# Install project dependencies
-npm install || exit
+            # Install PM2 globally
+            sudo npm install -g pm2 || exit
 
-# Build the project
-npm run build || exit
+            # Install project dependencies
+            npm install || exit
 
-# Manage PM2 processes
-pm2 delete react || exit
-pm2 start npm --name "react" -- start || exit
-pm2 restart react || exit
+            # Build the project
+            npm run build || exit
 
+            # Manage PM2 processes
+            pm2 delete react || exit
+            pm2 start npm --name "react" -- start || exit
+            pm2 restart react || exit
           EOF
