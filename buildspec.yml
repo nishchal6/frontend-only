@@ -13,12 +13,12 @@ phases:
   post_build:
     commands:
       - echo Replacing the index.html file...
-      - sudo cp index.html  /var/www/html/
+      - sudo cp index.html /home/ubuntu/frontend-only/public
       - echo Starting Nginx...
       - sudo systemctl start nginx
       - sudo systemctl enable nginx
 
 artifacts:
   files:
-    - /var/www/html/index.html
+     - firstpipe
 
