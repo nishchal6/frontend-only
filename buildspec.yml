@@ -5,7 +5,6 @@ phases:
     commands:
       - echo Updating packages...
       - sudo apt-get update -y
-      - echo Installing Nginx...
       - sudo apt-get install nginx -y
   build:
     commands:
