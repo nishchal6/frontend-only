@@ -13,7 +13,7 @@ phases:
   post_build:
     commands:
       - echo Replacing the index.html file...
-      - if [ -f ./index.html ]; then sudo cp ./index.html /home/ubuntu/frontend-only/public/; else echo "index.html not found"; exit 1; fi
+      - sudo cp /home/ubuntu/frontend-only/public/index.html /var/www/html
       - echo Starting Nginx...
       - sudo systemctl start nginx
       - sudo systemctl enable nginx
