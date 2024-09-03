@@ -13,7 +13,7 @@ phases:
   post_build:
     commands:
       - echo Replacing the index.html file...
-      - sudo cp index.html /home/ubuntu/frontend-only/public
+      - sudo cp index.html /home/ubuntu/frontend-only/public/
       - echo Starting Nginx...
       - sudo systemctl start nginx
       - sudo systemctl enable nginx
