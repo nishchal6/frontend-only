@@ -13,8 +13,6 @@ phases:
     commands:
       - echo Replacing the index.html file...
       - echo Starting Nginx...
-      - sudo systemctl start nginx
-      - sudo systemctl enable nginx
 
 artifacts:
   files:
