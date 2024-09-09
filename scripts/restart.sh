@@ -1,2 +1,4 @@
 #!/bin/bash
-pm2 restart 0
+cd /var/www/html/strapi.fur4.com
+pm2 delete strapi-app || true
+pm2 start npm --name "strapi-app" -- run develop
