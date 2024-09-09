@@ -3,12 +3,11 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/frontend
-    file_exists_behavior: OVERWRITE
-
+file_exists_behavior: OVERWRITE
 hooks:
   BeforeInstall:
     - location: scripts/deploy.sh
       timeout: 300
   ApplicationStart:
-    - location: scripts/resstart.sh
+    - location: scripts/restart.sh
       timeout: 300
